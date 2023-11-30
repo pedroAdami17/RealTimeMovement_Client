@@ -13,6 +13,14 @@ static public class NetworkClientProcessing
         Debug.Log("Network msg received =  " + msg + ", from pipeline = " + pipeline);
 
         string[] csv = msg.Split(',');
+
+        // Check array length before accessing elements
+        if (csv.Length < 5)
+        {
+            Debug.LogError("Invalid CSV format. Expected at least 7 elements.  " + csv.Length);
+            return;
+        }
+
         int signifier = int.Parse(csv[0]);
 
         for (int i = 0; i < csv.Length; i++)
@@ -20,12 +28,7 @@ static public class NetworkClientProcessing
             Debug.Log("Element " + i + ": " + csv[i]);
         }
 
-        // Check array length before accessing elements
-        if (csv.Length < 7)
-        {
-            Debug.LogError("Invalid CSV format. Expected at least 7 elements.");
-            return;
-        }
+        
 
         if (signifier == ServerToClientSignifiers.VelocityAndPosition)
         {
